@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    #message {
+      white-space: pre-line;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Password Validation</h1>
+  <label for="passwordInput">Enter your password:</label>
+  <input type="password" id="passwordInput" />
+  <button id="submitBtn">Submit</button>
+
+  <p id="message"></p>
+
+  <script>
+    document.getElementById('submitBtn').addEventListener('click', function() {
+      const password = document.getElementById('passwordInput').value;
+      const messageElement = document.getElementById('message');
+      let errorMessage = 'Your password is invalid. The following criteria failed:';
+      
+      // Criteria checks
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasDigit = /[0-9]/.test(password);
+      const hasSpecialChar = /[!@#$&]/.test(password);
+      
+      const failedCriteria = [];
+
+      // Check if each criterion is met and add failed ones to array
+      if (!hasUppercase) {
+        failedCriteria.push('- Password should contain at least one capital letter');
+      }
+      if (!hasDigit) {
+        failedCriteria.push('- Password should contain at least one numeric digit');
+      }
+      if (!hasSpecialChar) {
+        failedCriteria.push('- Password should contain at least one special character from !, @, #, $, &');
+      }
+
+      // Display the result
+      if (failedCriteria.length > 0) {
+        errorMessage += '\n' + failedCriteria.join('\n');
+        messageElement.style.color = 'red';
+        messageElement.textContent = errorMessage;
+      } else {
+        messageElement.style.color = 'green';
+        messageElement.textContent = 'Your password is valid.';
+      }
+    });
+  </script>
+</body>
+</html>
