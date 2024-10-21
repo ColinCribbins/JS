@@ -14,4 +14,7 @@ p {
 img {
 	border-color: yellow;
 }
+.capitalize {
+	text-transform: capitalize;
+}
 
