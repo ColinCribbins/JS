@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Sign In</title>
+    <style>
+        body {
+            background-color:lightgrey;
+        }
+    </style>
+</head>
+<body>
+		<h1>Login</h1>
+		<p>User ID: <input type="text" name="user" id="user"></p>
+		<p>Password: <input type="text" name="password" id="password"></p>
+		<p><input type="button" value="Login" id="login">
+
+		<div id="finalMsg"></div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+	<script>
+         $("#login").click(function () {
+            // Get the User ID and Password from the input fields
+            var userID = $("#user").val().trim();
+            var password = $("#password").val().trim();
+
+            // Check if inputs are not empty
+            if (userID === "" || password === "") {
+                $("#finalMsg").html("Please enter both User ID and Password.");
+                return;
+            }
+
+            // Combine User ID and Password in the required format "UserID|Password"
+            var formattedData = userID + "|" + password;
+
+            // Make the AJAX request to the PHP validation script
+            $.ajax({
+                url: "http://profperrytest.com/AJAXPHP/validate_logon.php", // The provided PHP program
+                type: "GET", // Sending data via GET method
+                data: { "info": formattedData }, // Send formatted data
+                success: function (response) {
+                    // Check if the response contains "Error"
+                    if (response.indexOf("Error") > -1) {
+                        $("#finalMsg").html("Error: User ID/Password (" + formattedData + ") is not a valid combination, please try again.");
+                    } else {
+                        $("#finalMsg").html("You have successfully logged onto your class.");
+                        $("#finalMsg").css("color", "green"); // Success message color
+                    }
+                },
+                error: function () {
+                    // If there’s an AJAX error
+                    $("#finalMsg").html("There was an error with the login request. Please try again.");
+                }
+            });
+        });
+
+	</script>
+</body>
+</html>
